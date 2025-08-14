@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aprende a usar CSS — V2 GT</title>
+  <style>
+    :root {
+      --primario: #0b72e7;
+      --texto: #1f2d3d;
+      --fondo: #f6f9fc;
+      --panel: #ffffff;
+      --borde: #e5e7eb;
+      --resaltado: #0b72e710;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      max-width: 980px;
+      margin: 24px auto;
+      padding: 20px;
+      background: var(--fondo);
+      color: var(--texto);
+      line-height: 1.6;
+    }
+    header {
+      background: var(--panel);
+      border: 1px solid var(--borde);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 22px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--resaltado);
+      color: var(--primario);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: .3px;
+      margin-left: 8px;
+    }
+    h1, h2, h3 { color: #0f1c2e; margin: 10px 0; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--borde);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin: 16px 0;
+    }
+    pre {
+      background: #0f172a;
+      color: #e5e7eb;
+      padding: 14px 16px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: Consolas, ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      font-size: 14px;
+      border: 1px solid #1f2937;
+    }
+    code.inline {
+      background: #eef2ff;
+      color: #111827;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-family: Consolas, monospace;
+    }
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+    @media (min-width: 840px) {
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+    .demo {
+      padding: 14px;
+      border: 1px dashed var(--borde);
+      border-radius: 10px;
+      background: #fff;
+    }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .pill {
+      padding: 8px 12px; border-radius: 999px; border: 1px solid var(--borde);
+      background: #fff; font-size: 14px;
+    }
+    button {
+      padding: 12px 18px;
+      background: var(--primario);
+      color: #fff;
+      border: 0; border-radius: 10px;
+      cursor: pointer; font-weight: 600;
+    }
+    button.ghost {
+      background: transparent; color: var(--primario);
+      border: 1px solid var(--primario);
+    }
+    footer { margin-top: 26px; text-align: center; color: #6b7280; }
+
+    /* DEMOS ESPECÍFICAS */
+    /* 1) Especificidad */
+    .especificidad .caja { padding: 10px; border-radius: 8px; }
+    .especificidad .caja { background: #fee2e2; }          /* regla 1 (tipo) */
+    .especificidad .especial { background: #fde68a; }       /* regla 2 (clase) */
+    #muy-importante { background: #bbf7d0; }                 /* regla 3 (id) */
+
+    /* 2) Modelo de caja */
+    .modelo .box {
+      background: #e0e7ff;
+      border: 4px solid #6366f1;
+      padding: 16px;
+      margin: 12px 0;
+    }
+
+    /* 3) Flexbox básico */
+    .flex-demo {
+      display: flex; gap: 10px; border: 1px dashed var(--borde); padding: 10px; border-radius: 10px; background: #fff;
+    }
+    .flex-demo .item {
+      background: #bfdbfe; padding: 8px 10px; border-radius: 8px; flex: 1;
+    }
+
+    /* 4) Responsive (media query) */
+    .responsive-demo {
+      display: grid; grid-template-columns: 1fr; gap: 10px;
+    }
+    @media (min-width: 640px) {
+      .responsive-demo { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* 5) Variables CSS + tema */
+    :root { --bg-demo: #ffffff; --fg-demo: #0f172a; }
+    .tema-demo {
+      background: var(--bg-demo); color: var(--fg-demo);
+      border: 1px solid var(--borde); border-radius: 10px; padding: 14px;
+    }
+    /* Toggle solo con CSS */
+    #toggleTema:checked ~ .tema-demo {
+      --bg-demo: #0f172a;
+      --fg-demo: #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Aprende a usar CSS <span class="badge">V2 GT</span></h1>
+    <p>Versión “GT”: un paso más avanzado. Verás especificidad, modelo de caja, Flexbox, responsive con <code class="inline">@media</code> y variables CSS con un pequeño cambio de tema sin JavaScript.</p>
+    <div class="row">
+      <span class="pill">Intermedio</span>
+      <span class="pill">Práctico</span>
+      <span class="pill">Sin frameworks</span>
+    </div>
+  </header>
+
+  <section class="card especificidad">
+    <h2>1) Especificidad: ¿qué regla gana?</h2>
+    <p>La “fuerza” de una regla depende del selector: <code class="inline">id</code> &gt; <code class="inline">clase</code> &gt; <code class="inline">tipo</code>. Y lo último escrito también puede ganar si la especificidad es igual.</p>
+<pre><code>/* tipo &lt; clase &lt; id */
+div.caja { background: #fee2e2; }
+.especial { background: #fde68a; }
+#muy-importante { background: #bbf7d0; }</code></pre>
+    <div class="demo">
+      <div class="caja">Regla por &lt;div&gt; (tipo)</div>
+      <div class="caja especial">Regla por .especial (clase)</div>
+      <div class="caja especial" id="muy-importante">Regla por #muy-importante (id)</div>
+    </div>
+  </section>
+
+  <section class="card modelo">
+    <h2>2) Modelo de caja (Box Model)</h2>
+    <p>Todo elemento tiene <em>contenido</em>, <em>padding</em>, <em>border</em> y <em>margin</em>. El tamaño total incluye esos “anillos”.</p>
+<pre><code>.box {
+  background: #e0e7ff;   /* color de fondo */
+  border: 4px solid #6366f1; /* borde */
+  padding: 16px;          /* relleno interno */
+  margin: 12px 0;         /* separación con otros elementos */
+}</code></pre>
+    <div class="demo">
+      <div class="box">Soy una caja con padding, borde y margen. Observa los espacios.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>3) Flexbox básico (distribución en fila)</h2>
+    <p>Flexbox te ayuda a alinear y distribuir elementos fácilmente.</p>
+<pre><code>.contenedor { display: flex; gap: 10px; }
+.item { flex: 1; }</code></pre>
+    <div class="flex-demo">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>4) Diseño responsive con <code class="inline">@media</code></h2>
+    <p>Usa media queries para cambiar el layout según el ancho de pantalla (móvil → desktop).</p>
+<pre><code>.cards { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 640px) {
+  .cards { grid-template-columns: repeat(3, 1fr); }
+}</code></pre>
+    <div class="demo responsive-demo">
+      <div class="card">Tarjeta A</div>
+      <div class="card">Tarjeta B</div>
+      <div class="card">Tarjeta C</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>5) Variables CSS + tema sin JavaScript</h2>
+    <p>Las variables (custom properties) te permiten cambiar colores y estilos en bloque.</p>
+<pre><code>:root { --bg: #fff; --fg: #111; }
+.caja { background: var(--bg); color: var(--fg); }</code></pre>
+    <div class="grid grid-2">
+      <label class="card" style="display:flex; align-items:center; gap:10px;">
+        <input id="toggleTema" type="checkbox" />
+        <strong>Activar tema oscuro (CSS puro)</strong>
+      </label>
+      <div class="tema-demo">
+        <p>Este panel cambia de tema usando solo variables CSS y un <code class="inline">:checked</code> selector.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="card" style="display:flex; gap:10px; flex-wrap:wrap;">
+    <button onclick="history.back()">⟵ Volver</button>
+    <button class="ghost" onclick="location.href='Aprende a usar JavaScript V2 BN.html'">Ir a JavaScript V2 BN ⟶</button>
+  </div>
+
+  <footer>
+    <p>© 2025 Curso CSS V2 GT — por ChatGPT y Julio (dueño de la página)</p>
+  </footer>
+</body>
+</html>
